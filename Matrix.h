@@ -38,6 +38,7 @@ public:
 	bool operator==(Matrix& m);
 	T* operator[](int i) { return items[i]; }
 	void save(const char* filename);
+	void open(const char* filename);
 };
 
 
@@ -48,7 +49,7 @@ Matrix<T>::Matrix()
 	height = 1;
 	items = new  T* [1];
 	items[0] = new T[1];
-	items[0][0] = 1;
+	items[0][0] = 0;
 }
 
 template <class T>
@@ -111,6 +112,7 @@ Matrix<T>::~Matrix()
 template <class T>
 void Matrix<T>::show()
 {
+	cout << height << " x " << widht << endl;
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < widht; j++)
@@ -319,6 +321,12 @@ void Matrix<T>::save(const char* filename)
 {
 	ofstream out;
 	out.open(filename);
+	if (!out)
+	{
+		setlocale(LC_ALL, "rus");
+		cout << "Не удалось открыть файл\n";
+		return;
+	}
 	out << height << ' ' << widht << '\n';
 	for (int i = 0; i < height; i++)
 	{
@@ -331,4 +339,37 @@ void Matrix<T>::save(const char* filename)
 		out << '\n';
 	}
 	out.close();
+}
+
+template <class T>
+void Matrix<T>::open(const char* filename)
+{
+	ifstream in;
+	in.open(filename);
+	if (!in)
+	{
+		setlocale(LC_ALL, "rus");
+		cout << "Не удалось открыть файл\n";
+		return;
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		delete[] items[i];
+	}
+	delete[] items;
+
+	int w, h;
+	in >> h >> w;
+	widht = w;
+	height = h;
+	items = new  T * [height];
+	for (int i = 0; i < height; i++)
+	{
+		items[i] = new T[w];
+		for (int j = 0; j < widht; j++)
+		{
+			in >> items[i][j];
+		}
+	}
 }
