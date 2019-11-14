@@ -4,8 +4,29 @@
 #include <cstring>
 #include "Matrix.h"
 #include <cstdio>
+#include <limits>
+#include <string>
 
 using namespace std;
+
+int inp_convert(string s)//Преобразование входной строки
+{
+	if (s.length() == 1)
+	{
+		if (s[0] > 47 && s[0] < 58)
+			return s[0] - 48;
+	}
+	else if (s.length() == 2)
+	{
+		if (s == "10")
+			return 10;
+		if (s == "11")
+			return 11;
+		if (s == "12")
+			return 12;
+	}
+	return -1;
+}
 
 int main()
 {
@@ -13,9 +34,10 @@ int main()
 	char f[50];
 	Matrix<double> m1("m1.txt"), m2("m2.txt"), m3("m3.txt");
 	int in;
+	string inp;
 
 
-	for (;;)
+	for (;;)//Основной цикл
 	{
 		cout << "\n\nКоманды:\n";
 		cout << "0. Справка\n";
@@ -31,8 +53,9 @@ int main()
 		cout << "10. Сравнить матрицы\n";
 		cout << "11. Сохранить матрицу в файл\n";
 		cout << "12. Закрыть программу и сохранить матрицы\n";
-
-		cin >> in;
+		
+		cin >> inp;
+		in = inp_convert(inp);
 
 		if (in == 0)
 		{
@@ -227,6 +250,7 @@ int main()
 			else
 			{
 				cout << "Неверные номера матриц\n";
+				continue;
 			}
 
 			if (res)
@@ -261,21 +285,7 @@ int main()
 		else
 			cout << "Неизвестная команда\n";
 	}
-
-	/*char f[10],f1[10],f2[10];
-	strcpy(f, "matr.txt");
-	strcpy(f1, "matr2.txt");
-	strcpy(f2, "ans.txt");
-	Matrix<double> m1(f), m2(f1),r;
-	m1.show();
-	m2.show();
-	r = m1 * m2;
-	r.show();
-	r = r * 10;
-	r.show();
-	cout << (m1 == m2) << endl;
-	cout << (r == r) << endl;
-	r.save(f2);*/
+	//Сохранение матриц
 	m1.save("m1.txt");
 	m2.save("m2.txt");
 	m3.save("m3.txt");

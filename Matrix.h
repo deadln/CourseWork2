@@ -18,17 +18,17 @@ T max(T x1, T x2)
 
 template <class T> class Matrix
 {
-	T** items;
-	int widht;
-	int height;
+	T** items;//Указатель на массив матрицы
+	int widht;//Количество столбцов
+	int height;//Количество строк
 public:
-	Matrix();
-	Matrix(int h, int w);
-	Matrix(const char* filename);
-	~Matrix();
-	int get_widht() { return widht; }
-	int get_height() { return height; }
-	void show();
+	Matrix();//Конструктор, создающий нулевую матрицу 1 x 1
+	Matrix(int h, int w);//Конструктор, создающий нулевую матрицу h x w
+	Matrix(const char* filename);//Конструктор, создающий матрицу из файла
+	~Matrix();//Деструктор
+	int get_widht() { return widht; }//Вернуть ширину
+	int get_height() { return height; }//Вернуть высоту
+	void show();//Вывод матрицы
 	void operator=(Matrix *m);
 	void operator=(Matrix &m);
 	Matrix<T>* operator+(Matrix &m);
@@ -36,9 +36,9 @@ public:
 	Matrix<T>* operator*(Matrix& m);
 	Matrix<T>* operator*(double n);
 	bool operator==(Matrix& m);
-	T* operator[](int i) { return items[i]; }
-	void save(const char* filename);
-	void open(const char* filename);
+	T* operator[](int i) { return items[i]; }//Доступ к элементам матрицы
+	void save(const char* filename);//Сохранить матрицу в файл
+	void open(const char* filename);//Открыть матрицу из файла
 };
 
 
@@ -279,7 +279,6 @@ Matrix<T>* Matrix<T>::operator*(Matrix& m)
 			{
 				res->items[i][j] += s1.items[i][k] * s2.items[k][j];
 			}
-			//res->items[i][j] = s1.items[i][j] * s2.items[i][j];
 		}
 	}
 
